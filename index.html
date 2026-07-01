@@ -30,7 +30,7 @@
     const light = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
     scene.add(light);
 
-    // Cargar el modelo GLB desde GitHub Pages
+    // Cargar el modelo GLB desde GitHub Pages parte importante 1
     const loader = new THREE.GLTFLoader();
     loader.load('cerebro.glb', function(gltf) {
       scene.add(gltf.scene);
