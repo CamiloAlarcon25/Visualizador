@@ -4,11 +4,29 @@
   <meta charset="UTF-8">
   <title>Visualizador Cerebro 3D</title>
   <style>
-    body { margin: 0; }
-    canvas { display: block; }
+    body {
+      margin: 0;
+      background-color: lightblue; /* Fondo celeste claro */
+      font-family: Arial, sans-serif;
+    }
+    #mensaje {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: darkblue;
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 10; /* Para que quede encima del canvas */
+    }
+    canvas {
+      display: block;
+    }
   </style>
 </head>
 <body>
+  <!-- Texto de prueba -->
+  <div id="mensaje">¡Hola Mundo! Probando visualizador 3D</div>
+
   <!-- Incluimos Three.js y el cargador GLTF -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/GLTFLoader.js"></script>
@@ -30,7 +48,7 @@
     const light = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
     scene.add(light);
 
-    // Cargar el modelo GLB desde GitHub Pages parte importante 1
+    // Cargar el modelo GLB
     const loader = new THREE.GLTFLoader();
     loader.load('cerebro.glb', function(gltf) {
       scene.add(gltf.scene);
