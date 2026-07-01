@@ -3,48 +3,279 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizador 3D - Cerebro</title>
+    <title>Tipos de ACV - Comprensión y Prevención</title>
     
+    <!-- Importa la librería model-viewer para cargar el archivo GLB -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
     <style>
+        :root {
+            --primary-color: #006699;
+            --ischemic-color: #1a75ff;
+            --hemorrhagic-color: #cc3333;
+            --mixed-color: #800080;
+            --bg-color: #f4f7f9;
+            --card-bg: #ffffff;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: #333;
+        }
+
+        /* Encabezado Principal */
+        header {
+            background-color: #004d73;
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            margin: 5px 0 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Contenedor Principal en Dos Columnas */
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            min-height: calc(100vh - 160px); /* Resta header y footer */
+            max-width: 1600px;
+            margin: 0 auto;
+            gap: 20px;
             padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* COLUMNA IZQUIERDA: Visor 3D Fijo */
+        .left-column {
+            flex: 1;
+            position: sticky;
+            top: 20px;
+            height: calc(100vh - 200px);
+            min-width: 400px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            background-color: #f0f2f5;
+            overflow: hidden;
         }
 
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
+        .viewer-header {
+            background-color: #e6f2ff;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            color: #004d73;
+            border-bottom: 1px solid #d0e2f5;
         }
 
-        /* Contenedor del modelo 3D */
         model-viewer {
-            width: 80vw;
-            height: 60vh;
-            max-width: 800px;
-            max-height: 600px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            flex: 1;
+            background-color: #fafafa;
+        }
+
+        /* COLUMNA DERECHA: Información con Scroll */
+        .right-column {
+            flex: 1.5;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Tarjetas de Información */
+        .acv-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 6px solid #ccc;
+            padding: 25px;
+            transition: transform 0.2s;
+        }
+
+        .acv-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .acv-card.ischemic { border-top-color: var(--ischemic-color); }
+        .acv-card.hemorrhagic { border-top-color: var(--hemorrhagic-color); }
+        .acv-card.mixed { border-top-color: var(--mixed-color); }
+
+        .card-title {
+            font-size: 1.6rem;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        .ischemic .card-title { color: var(--ischemic-color); }
+        .hemorrhagic .card-title { color: var(--hemorrhagic-color); }
+        .mixed .card-title { color: var(--mixed-color); }
+
+        .card-subtitle {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .info-section {
+            margin-bottom: 15px;
+        }
+
+        .info-section strong {
+            display: inline-block;
+            color: #222;
+            margin-bottom: 5px;
+        }
+
+        .info-section ul {
+            margin: 5px 0 0 0;
+            padding-left: 20px;
+        }
+
+        .info-section li {
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        /* Barra de Prevención Inferior */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        /* Adaptabilidad para pantallas pequeñas (Celulares) */
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .left-column {
+                position: relative;
+                top: 0;
+                height: 400px;
+                min-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>Imagen de Cerebro</h1>
+    <header>
+        <h1>Tipos de ACV</h1>
+        <p>Comprensión y Prevención</p>
+    </header>
 
-    <model-viewer 
-        src="cerebro.glb" 
-        alt="Un modelo 3D de un cerebro" 
-        auto-rotate 
-        camera-controls>
-    </model-viewer>
+    <div class="main-container">
+        
+        <!-- COLUMNA IZQUIERDA: Visor de tu archivo cerebro.glb -->
+        <div class="left-column">
+            <div class="viewer-header">VISUALIZACIÓN 3D INTERACTIVA</div>
+            <model-viewer 
+                src="cerebro.glb" 
+                alt="Modelo 3D interactivo de un cerebro" 
+                auto-rotate 
+                camera-controls
+                shadow-intensity="1">
+            </model-viewer>
+        </div>
+
+        <!-- COLUMNA DERECHA: Información extraída de la guía original -->
+        <div class="right-column">
+            
+            <!-- 1. ACV ISQUÉMICO -->
+            <div class="acv-card ischemic">
+                <h2 class="card-title">1. ACV ISQUÉMICO</h2>
+                <div class="card-subtitle">(Infarto Cerebral)</div>
+                
+                <div class="info-section">
+                    <strong>🧠 CAUSA:</strong> Obstrucción de arteria (como la Arteria Cerebral Media) provocada por un trombo o émbolo, generando una placa que bloquea el flujo sanguíneo y produce un infarto en la zona de isquemia. (Representa el 87% de los casos).
+                </div>
+                
+                <div class="info-section">
+                    <strong>⚠️ SÍNTOMAS:</strong>
+                    <ul>
+                        <li>Adormecimiento repentino o debilidad en la cara, brazo o pierna (especialmente en un lado del cuerpo).</li>
+                        <li>Dificultad para hablar o comprender el lenguaje.</li>
+                        <li>Visión borrosa o pérdida repentina de la visión.</li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <strong>📋 FACTORES DE RIESGO:</strong>
+                    Hipertensión, Colesterol alto, Diabetes y Tabaquismo.
+                </div>
+            </div>
+
+            <!-- 2. ACV HEMORRÁGICO -->
+            <div class="acv-card hemorrhagic">
+                <h2 class="card-title">2. ACV HEMORRÁGICO</h2>
+                <div class="card-subtitle">(Derrame Cerebral)</div>
+                
+                <div class="info-section">
+                    <strong>🧠 CAUSA:</strong> Ruptura de un vaso sanguíneo intracerebral debido comúnmente a un aneurisma o malformación arteriovenosa, lo que genera sangrado acumulado y una fuerte presión interna. (Representa el 13% de los casos).
+                </div>
+                
+                <div class="info-section">
+                    <strong>⚠️ SÍNTOMAS:</strong>
+                    <ul>
+                        <li>Dolor de cabeza intenso, repentino y devastador (descrito como el peor dolor de la vida).</li>
+                        <li>Náuseas y vómitos explosivos.</li>
+                        <li>Rigidez de nuca y confusión mental progresiva.</li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <strong>📋 FACTORES DE RIESGO:</strong>
+                    Hipertensión severa no controlada, Aneurismas y Malformaciones vasculares congénitas.
+                </div>
+            </div>
+
+            <!-- 3. ACV MIXTO -->
+            <div class="acv-card mixed">
+                <h2 class="card-title">3. ACV MIXTO</h2>
+                <div class="card-subtitle">/ Transformación Hemorrágica</div>
+                
+                <div class="info-section">
+                    <strong>🧠 CAUSA:</strong> Se produce cuando ocurre un sangrado secundario dentro de un área que previamente había sufrido un infarto cerebral (isquemia). El daño tisular inicial debilita severamente los vasos sanguíneos y, al restaurarse o repercutir el flujo, provoca la hemorragia.
+                </div>
+                
+                <div class="info-section">
+                    <strong>💥 IMPACTO CLÍNICO:</strong>
+                    <ul>
+                        <li>Mayor gravedad clínica y evolución compleja del paciente.</li>
+                        <li>Aumento severo de la presión intracraneal y un incremento crítico en el riesgo de mortalidad.</li>
+                        <li>Ejemplo típico: Un infarto cerebral extenso que se complica con sangrado en los días posteriores.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        PREVENCIÓN: Controlar la Hipertensión, No Fumar, Mantener una Dieta Saludable y realizar Ejercicio Regular.
+    </footer>
 
 </body>
 </html>
