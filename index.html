@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tipos de ACV - Comprensión y Prevención</title>
     
-    <!-- Importa la librería model-viewer para cargar el archivo GLB -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
     <style>
@@ -52,7 +51,7 @@
         .main-container {
             display: flex;
             flex-direction: row;
-            min-height: calc(100vh - 160px); /* Resta header y footer */
+            min-height: calc(100vh - 160px);
             max-width: 1600px;
             margin: 0 auto;
             gap: 20px;
@@ -130,8 +129,19 @@
         .card-subtitle {
             font-style: italic;
             color: #666;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 1.1rem;
+        }
+
+        /* Estilos para las nuevas imágenes descriptivas */
+        .acv-img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain; /* Mantiene la proporción de la imagen sin deformarla */
+            background-color: #fafafa;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
         }
 
         .info-section {
@@ -188,7 +198,6 @@
 
     <div class="main-container">
         
-        <!-- COLUMNA IZQUIERDA: Visor de tu archivo cerebro.glb -->
         <div class="left-column">
             <div class="viewer-header">VISUALIZACIÓN 3D INTERACTIVA</div>
             <model-viewer 
@@ -200,13 +209,13 @@
             </model-viewer>
         </div>
 
-        <!-- COLUMNA DERECHA: Información extraída de la guía original -->
         <div class="right-column">
             
-            <!-- 1. ACV ISQUÉMICO -->
             <div class="acv-card ischemic">
                 <h2 class="card-title">1. ACV ISQUÉMICO</h2>
                 <div class="card-subtitle">(Infarto Cerebral)</div>
+                
+                <img src="isquemico.png" alt="Esquema de ACV Isquémico" class="acv-img">
                 
                 <div class="info-section">
                     <strong>🧠 CAUSA:</strong> Obstrucción de arteria (como la Arteria Cerebral Media) provocada por un trombo o émbolo, generando una placa que bloquea el flujo sanguíneo y produce un infarto en la zona de isquemia. (Representa el 87% de los casos).
@@ -227,10 +236,11 @@
                 </div>
             </div>
 
-            <!-- 2. ACV HEMORRÁGICO -->
             <div class="acv-card hemorrhagic">
                 <h2 class="card-title">2. ACV HEMORRÁGICO</h2>
                 <div class="card-subtitle">(Derrame Cerebral)</div>
+                
+                <img src="hemorragico.png" alt="Esquema de ACV Hemorrágico" class="acv-img">
                 
                 <div class="info-section">
                     <strong>🧠 CAUSA:</strong> Ruptura de un vaso sanguíneo intracerebral debido comúnmente a un aneurisma o malformación arteriovenosa, lo que genera sangrado acumulado y una fuerte presión interna. (Representa el 13% de los casos).
@@ -251,10 +261,11 @@
                 </div>
             </div>
 
-            <!-- 3. ACV MIXTO -->
             <div class="acv-card mixed">
                 <h2 class="card-title">3. ACV MIXTO</h2>
                 <div class="card-subtitle">/ Transformación Hemorrágica</div>
+                
+                <img src="mixto.png" alt="Esquema de ACV Mixto" class="acv-img">
                 
                 <div class="info-section">
                     <strong>🧠 CAUSA:</strong> Se produce cuando ocurre un sangrado secundario dentro de un área que previamente había sufrido un infarto cerebral (isquemia). El daño tisular inicial debilita severamente los vasos sanguíneos y, al restaurarse o repercutir el flujo, provoca la hemorragia.
