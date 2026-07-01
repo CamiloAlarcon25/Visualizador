@@ -32,7 +32,7 @@
 
     // Cargar el modelo GLB desde GitHub Pages
     const loader = new THREE.GLTFLoader();
-    loader.load('cerebro.glb', function(gltf) {
+    loader.load('https://CamiloAlarcon25.github.io/Visualizador/cerebro.glb', function(gltf) {
       scene.add(gltf.scene);
     }, undefined, function(error) {
       console.error(error);
