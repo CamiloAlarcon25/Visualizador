@@ -24,7 +24,7 @@
 <body>
   <div id="mensaje">¡Hola Mundo! Probando visualizador 3D</div>
 
-  <!-- Código modular -->
+  <!-- Código modular con rutas absolutas -->
   <script type="module">
     import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.js';
     import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/loaders/GLTFLoader.js';
@@ -55,7 +55,7 @@
 
     // Cargar modelo GLB
     const loader = new GLTFLoader();
-    loader.load('cerebro3.glb', function(gltf) {
+    loader.load('cubo.glb', function(gltf) {
       const model = gltf.scene;
       model.scale.set(1, 1, 1);   // Ajusta tamaño
       model.position.set(0, 0, 0); // Centrado
@@ -82,3 +82,4 @@
   </script>
 </body>
 </html>
+
