@@ -22,9 +22,8 @@
   </style>
 </head>
 <body>
-  <div id="mensaje">¡Hola Mundo! Probando visualizador 6D</div>
+  <div id="mensaje">¡Hola Mundo! Probando visualizador 3D</div>
 
-  <!-- Código modular con rutas absolutas -->
   <script type="module">
     import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.js';
     import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/loaders/GLTFLoader.js';
@@ -55,10 +54,10 @@
 
     // Cargar modelo GLB
     const loader = new GLTFLoader();
-    loader.load('cubo.glb', function(gltf) {
+    loader.load('cerebro.glb', function(gltf) {
       const model = gltf.scene;
-      model.scale.set(1, 1, 1);   // Ajusta tamaño
-      model.position.set(0, 0, 0); // Centrado
+      model.scale.set(1, 1, 1);
+      model.position.set(0, 0, 0);
       scene.add(model);
       console.log("Modelo cargado correctamente");
     }, undefined, function(error) {
