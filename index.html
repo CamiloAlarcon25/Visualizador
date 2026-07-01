@@ -1,128 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visor de ACV y Anatomía Cerebral</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            display: flex;
-            height: 100vh;
-            background-color: #f4f6f9;
-        }
-        .canvas-container {
-            width: 50%;
-            height: 100vh;
-            background: #111827; /* Fondo oscuro para resaltar los colores */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        model-viewer {
-            width: 100%;
-            height: 100%;
-        }
-        .info-container {
-            width: 50%;
-            padding: 30px;
-            overflow-y: auto;
-            box-sizing: border-box;
-            background-color: #f4f6f9;
-        }
-        .card {
-            background: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .badge { display: inline-block; padding: 5px 10px; border-radius: 4px; color: white; font-weight: bold; margin-right: 5px; }
-        .frontal { background-color: #ef4444; } /* Rojo */
-        .parietal { background-color: #3b82f6; } /* Azul */
-        .temporal { background-color: #eab308; } /* Amarillo */
-        .occipital { background-color: #22c55e; } /* Verde */
-    </style>
+  <meta charset="UTF-8">
+  <title>Página de Prueba</title>
+  <style>
+    body {
+      background-color: lightblue; /* Color de fondo */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      color: darkblue;
+      font-size: 3em;
+    }
+  </style>
 </head>
 <body>
-
-    <div class="canvas-container">
-        <model-viewer 
-            id="visorCerebro"
-            src="cerebro.glb" 
-            alt="Modelo 3D de Cerebro Humano" 
-            camera-controls 
-            auto-rotate
-            shadow-intensity="1"
-            camera-orbit="45deg 75deg 105%">
-        </model-viewer>
-    </div>
-
-    <div class="info-container">
-        <h2>Referencia de Lóbulos</h2>
-        <p>
-            <span class="badge frontal">Lóbulo Frontal</span>
-            <span class="badge parietal">Lóbulo Parietal</span>
-            <span class="badge temporal">Lóbulo Temporal</span>
-            <span class="badge occipital">Lóbulo Occipital</span>
-        </p>
-        
-        <hr>
-
-        <h2>Tipos de ACV para Explicación</h2>
-        
-        <div class="card">
-            <h3>🧠 ACV Isquémico</h3>
-            <p><strong>Causa:</strong> Obstrucción de una arteria por un trombo o émbolo.</p>
-            <p><strong>Efecto:</strong> Bloqueo del flujo sanguíneo, provocando la muerte del tejido celular en el área afectada del lóbulo correspondiente.</p>
-        </div>
-
-        <div class="card">
-            <h3>🩸 ACV Hemorrágico</h3>
-            <p><strong>Causa:</strong> Ruptura de una arteria cerebral.</p>
-            <p><strong>Efecto:</strong> Ruptura y sangrado que genera presión intracraneal y daño directo por contacto con la sangre.</p>
-        </div>
-
-        <div class="card">
-            <h3>🔄 ACV Mixto</h3>
-            <p><strong>Causa:</strong> Isquemia inicial seguida de una transformación hemorrágica.</p>
-            <p><strong>Efecto:</strong> El tejido previamente infartado por falta de sangre sufre una rotura de vasos capilares al intentar reperfundirse, provocando una hemorragia secundaria.</p>
-        </div>
-    </div>
-
-    <script>
-        const modelViewer = document.querySelector('#visorCerebro');
-
-        modelViewer.addEventListener('load', () => {
-            const model = modelViewer.model;
-            
-            // Valores RGBA de los colores solicitados (escala de 0 a 1)
-            const colorRojo = [0.93, 0.26, 0.26, 1.0];     // Lóbulo Frontal
-            const colorAzul = [0.23, 0.51, 0.96, 1.0];     // Lóbulo Parietal
-            const colorAmarillo = [0.92, 0.70, 0.03, 1.0];   // Lóbulo Temporal
-            const colorVerde = [0.13, 0.77, 0.36, 1.0];    // Lóbulo Occipital
-
-            // Recorremos las mallas internas del archivo .glb y las pintamos por su nombre anatómico
-            model.materials.forEach((material) => {
-                const nombre = material.name.toLowerCase();
-
-                if (nombre.includes('frontal') || nombre.includes('front')) {
-                    material.pbrMetallicRoughness.setBaseColorFactor(colorRojo);
-                } else if (nombre.includes('parietal')) {
-                    material.pbrMetallicRoughness.setBaseColorFactor(colorAzul);
-                } else if (nombre.includes('temporal')) {
-                    material.pbrMetallicRoughness.setBaseColorFactor(colorAmarillo);
-                } else if (nombre.includes('occipital')) {
-                    material.pbrMetallicRoughness.setBaseColorFactor(colorVerde);
-                }
-                
-                // Mantiene el aspecto mate para simular textura médica realista
-                material.pbrMetallicRoughness.setRoughnessFactor(0.6);
-            });
-        });
-    </script>
-
+  <h1>¡Hola Mundo!</h1>
 </body>
 </html>
