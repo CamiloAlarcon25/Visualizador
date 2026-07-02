@@ -3,19 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tipos de ACV - Comprensión y Prevención</title>
+    <title>Visualizador Clínico Interactivo</title>
     
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
     <style>
         :root {
-            --primary-color: #006699;
-            --ischemic-color: #1a75ff;
-            --hemorrhagic-color: #cc3333;
-            --mixed-color: #800080;
             --bg-color: #f4f7f9;
             --card-bg: #ffffff;
-            --accent-clinical: #27ae60;
+            --primary-acv: #004d73;
+            --primary-parkinson: #6c3483;
         }
 
         body {
@@ -24,11 +21,12 @@
             padding: 0;
             background-color: var(--bg-color);
             color: #333;
+            transition: background-color 0.3s;
         }
 
         /* Encabezado Principal */
         header {
-            background-color: #004d73;
+            background-color: #2c3e50;
             color: white;
             text-align: center;
             padding: 20px 10px;
@@ -37,75 +35,68 @@
 
         header h1 {
             margin: 0;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        header p {
-            margin: 5px 0 0 0;
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        /* SECCIÓN NUEVA: Pestañas Desplegables de Casos Clínicos */
-        .clinical-cases-container {
-            max-width: 1560px;
+        /* CONTENEDOR DE PESTAÑAS (BOTONES) */
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            max-width: 1600px;
             margin: 20px auto 0 auto;
             padding: 0 20px;
-            box-sizing: border-box;
         }
 
-        details {
-            background-color: var(--card-bg);
+        .tab-button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            background-color: #e0e0e0;
+            color: #555;
+        }
+
+        /* Estados activos para cada pestaña */
+        .tab-button.active.acv-tab {
+            background-color: var(--primary-acv);
+            color: white;
+        }
+
+        .tab-button.active.parkinson-tab {
+            background-color: var(--primary-parkinson);
+            color: white;
+        }
+
+        /* Bloque del Caso Clínico Desplegado */
+        .clinical-case-box {
+            max-width: 1560px;
+            margin: 20px auto 0 auto;
+            padding: 20px;
+            background-color: #fff9e6;
+            border-left: 6px solid #f1c40f;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            margin-bottom: 10px;
-            overflow: hidden;
-            border-left: 6px solid var(--accent-clinical);
-            transition: all 0.3s ease;
-        }
-
-        summary {
-            padding: 15px 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #1e7b43;
-            cursor: pointer;
-            outline: none;
-            user-select: none;
-            background-color: #ebfaef;
-        }
-
-        summary:hover {
-            background-color: #dbf7e3;
-        }
-
-        .case-content {
-            padding: 20px;
-            border-top: 1px solid #dbf7e3;
+            box-sizing: border-box;
             line-height: 1.6;
-            background-color: #fdfdfd;
         }
 
-        .case-content p {
-            margin: 0 0 10px 0;
-        }
-
-        .case-highlight {
-            background-color: #fff9e6;
-            padding: 10px 15px;
-            border-left: 4px solid #f1c40f;
-            border-radius: 4px;
-            margin-top: 15px;
-            font-size: 0.95rem;
+        .clinical-case-box h3 {
+            margin-top: 0;
+            color: #b7950b;
         }
 
         /* Contenedor Principal en Dos Columnas */
         .main-container {
             display: flex;
             flex-direction: row;
-            min-height: calc(100vh - 220px);
+            min-height: calc(100vh - 250px);
             max-width: 1600px;
             margin: 0 auto;
             gap: 20px;
@@ -113,7 +104,7 @@
             box-sizing: border-box;
         }
 
-        /* COLUMNA IZQUIERDA: Visor 3D Fijo */
+        /* COLUMNA IZQUIERDA: Visor 3D Dinámico */
         .left-column {
             flex: 1;
             position: sticky;
@@ -135,6 +126,7 @@
             font-weight: bold;
             color: #004d73;
             border-bottom: 1px solid #d0e2f5;
+            transition: all 0.3s;
         }
 
         model-viewer {
@@ -143,7 +135,7 @@
             background-color: #fafafa;
         }
 
-        /* COLUMNA DERECHA: Información con Scroll */
+        /* COLUMNA DERECHA: Información Cambiante */
         .right-column {
             flex: 1.5;
             display: flex;
@@ -154,31 +146,20 @@
         }
 
         /* Tarjetas de Información */
-        .acv-card {
+        .info-card {
             background-color: var(--card-bg);
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             border-top: 6px solid #ccc;
             padding: 25px;
-            transition: transform 0.2s;
+            display: none; /* Se maneja por JS */
         }
-
-        .acv-card:hover {
-            transform: translateY(-2px);
-        }
-
-        .acv-card.ischemic { border-top-color: var(--ischemic-color); }
-        .acv-card.hemorrhagic { border-top-color: var(--hemorrhagic-color); }
-        .acv-card.mixed { border-top-color: var(--mixed-color); }
 
         .card-title {
             font-size: 1.6rem;
             margin-top: 0;
             margin-bottom: 5px;
         }
-        .ischemic .card-title { color: var(--ischemic-color); }
-        .hemorrhagic .card-title { color: var(--hemorrhagic-color); }
-        .mixed .card-title { color: var(--mixed-color); }
 
         .card-subtitle {
             font-style: italic;
@@ -187,8 +168,7 @@
             font-size: 1.1rem;
         }
 
-        /* Estilos para las imágenes descriptivas */
-        .acv-img {
+        .info-img {
             width: 100%;
             max-height: 250px;
             object-fit: contain;
@@ -218,72 +198,43 @@
             line-height: 1.4;
         }
 
-        /* Barra de Prevención Inferior */
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
+        /* Clases de Control de Visibilidad (JS) */
+        .show-block { display: block !important; }
+        .show-flex { display: flex !important; }
 
-        /* Adaptabilidad para pantallas pequeñas (Celulares) */
+        /* Adaptabilidad para Celulares */
         @media (max-width: 900px) {
-            .main-container {
-                flex-direction: column;
-            }
-            .left-column {
-                position: relative;
-                top: 0;
-                height: 400px;
-                min-width: 100%;
-            }
+            .main-container { flex-direction: column; }
+            .left-column { position: relative; top: 0; height: 400px; min-width: 100%; }
+            .tabs-container { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Tipos de ACV</h1>
-        <p>Comprensión y Prevención</p>
+        <h1 id="main-title">Plataforma de Casos Clínicos</h1>
     </header>
 
-    <div class="clinical-cases-container">
-        
-        <details>
-            <summary>📁 CASO CLÍNICO 1: ACCIDENTE CEREBROVASCULAR</summary>
-            <div class="case-content">
-                <p><strong>Paciente:</strong> María, de 62 años, es diestra.</p>
-                <p><strong>Cuadro Clínico:</strong> Presenta un cuadro de inicio súbito en urgencias donde se confirma un <strong>accidente cerebrovascular isquémico</strong> en el territorio de la <strong>arteria cerebral media izquierda</strong>.</p>
-                <p><strong>Estado Actual:</strong> Actualmente se encuentra alerta, pero emite frases breves con mucho esfuerzo.</p>
-                <p><strong>Examen Físico:</strong> Presenta paresia facial derecha y hemiparesia derecha de predominio braquial.</p>
-                <p><strong>Impacto en la Vida Diaria:</strong> Requiere asistencia física para vestirse y no logra organizar mentalmente los pasos para la preparación de una comida sencilla en su hogar.</p>
-                
-                <div class="case-highlight">
-                    💡 <strong>Relación con el modelo 3D:</strong> El caso de María corresponde al <em>Item 1 (ACV Isquémico)</em> detallado en la columna derecha. Al observar tu archivo 3D <code>cerebro.glb</code>, el daño se localiza específicamente en el hemisferio izquierdo (afectando el lenguaje y la movilidad del lado derecho del cuerpo).
-                </div>
-            </div>
-        </details>
+    <div class="tabs-container">
+        <button class="tab-button active acv-tab" onclick="switchCase('acv')">📁 CASO CLÍNICO 1: ACV</button>
+        <button class="tab-button parkinson-tab" onclick="switchCase('parkinson')">📁 CASO CLÍNICO 2: PARKINSON</button>
+    </div>
 
-        <details>
-            <summary>📁 CASO CLÍNICO 2: [Título del Segundo Caso]</summary>
-            <div class="case-content">
-                <p>Aquí puedes agregar la descripción del segundo caso clínico de la misma forma en que estructuramos el primero.</p>
-                <p><em>Modifica este texto en tu index.html con los detalles del nuevo paciente cuando los tengas listos.</em></p>
+    <div class="clinical-case-box">
+        <h3 id="case-box-title">Historial del Paciente</h3>
+        <div id="case-box-text">
             </div>
-        </details>
-
     </div>
 
     <div class="main-container">
         
         <div class="left-column">
-            <div class="viewer-header">VISUALIZACIÓN 3D INTERACTIVA</div>
+            <div class="viewer-header" id="viewer-title">VISUALIZACIÓN 3D INTERACTIVA</div>
             <model-viewer 
+                id="main-viewer"
                 src="cerebro.glb" 
-                alt="Modelo 3D interactivo de un cerebro" 
+                alt="Modelo 3D interactivo" 
                 auto-rotate 
                 camera-controls
                 shadow-intensity="1">
@@ -292,74 +243,131 @@
 
         <div class="right-column">
             
-            <div class="acv-card ischemic">
-                <h2 class="card-title">1. ACV ISQUÉMICO</h2>
+            <div class="info-card acv-content" border-color="#1a75ff" style="border-top-color: #1a75ff;">
+                <h2 class="card-title" style="color: #1a75ff;">1. ACV ISQUÉMICO</h2>
                 <div class="card-subtitle">(Infarto Cerebral)</div>
-                <img src="isquemico.png" alt="Esquema de ACV Isquémico" class="acv-img">
-                
+                <img src="isquemico.png" alt="Esquema de ACV Isquémico" class="info-img">
                 <div class="info-section">
-                    <strong>🧠 CAUSA:</strong> Obstrucción de arteria (como la Arteria Cerebral Media) provocada por un trombo o émbolo, generando una placa que bloquea el flujo sanguíneo y produce un infarto en la zona de isquemia. (Representa el 87% de los casos).
+                    <strong>🧠 CAUSA:</strong> Obstrucción de arteria por trombo o émbolo. (87% de los casos).
                 </div>
                 <div class="info-section">
-                    <strong>⚠️ SÍNTOMAS:</strong>
-                    <ul>
-                        <li>Adormecimiento repentino o debilidad en la cara, brazo o pierna (especialmente en un lado del cuerpo).</li>
-                        <li>Dificultad para hablar o comprender el lenguaje.</li>
-                        <li>Visión borrosa o pérdida repentina de la visión.</li>
-                    </ul>
-                </div>
-                <div class="info-section">
-                    <strong>📋 FACTORES DE RIESGO:</strong>
-                    Hipertensión, Colesterol alto, Diabetes y Tabaquismo.
+                    <strong>⚠️ SÍNTOMAS:</strong> Adormecimiento facial, debilidad en un lado del cuerpo, dificultad para hablar.
                 </div>
             </div>
 
-            <div class="acv-card hemorrhagic">
-                <h2 class="card-title">2. ACV HEMORRÁGICO</h2>
+            <div class="info-card acv-content" style="border-top-color: #cc3333;">
+                <h2 class="card-title" style="color: #cc3333;">2. ACV HEMORRÁGICO</h2>
                 <div class="card-subtitle">(Derrame Cerebral)</div>
-                <img src="hemorragico.png" alt="Esquema de ACV Hemorrágico" class="acv-img">
-                
+                <img src="hemorragico.png" alt="Esquema de ACV Hemorrágico" class="info-img">
                 <div class="info-section">
-                    <strong>🧠 CAUSA:</strong> Ruptura de un vaso sanguíneo intracerebral debido comúnmente a un aneurisma o malformación arteriovenosa, lo que genera sangrado acumulado y una fuerte presión interna. (Representa el 13% de los casos).
+                    <strong>🧠 CAUSA:</strong> Ruptura de un vaso sanguíneo intracerebral. (13% de los casos).
                 </div>
                 <div class="info-section">
-                    <strong>⚠️ SÍNTOMAS:</strong>
-                    <ul>
-                        <li>Dolor de cabeza intenso, repentino y devastador (descrito como el peor dolor de la vida).</li>
-                        <li>Náuseas y vómitos explosivos.</li>
-                        <li>Rigidez de nuca y confusión mental progresiva.</li>
-                    </ul>
-                </div>
-                <div class="info-section">
-                    <strong>📋 FACTORES DE RIESGO:</strong>
-                    Hipertensión severa no controlada, Aneurismas y Malformaciones vasculares congénitas.
+                    <strong>⚠️ SÍNTOMAS:</strong> Dolor de cabeza explosivo e intenso, náuseas, rigidez de nuca.
                 </div>
             </div>
 
-            <div class="acv-card mixed">
-                <h2 class="card-title">3. ACV MIXTO</h2>
+            <div class="info-card acv-content" style="border-top-color: #800080;">
+                <h2 class="card-title" style="color: #800080;">3. ACV MIXTO</h2>
                 <div class="card-subtitle">/ Transformación Hemorrágica</div>
-                <img src="mixto.png" alt="Esquema de ACV Mixto" class="acv-img">
-                
+                <img src="mixto.png" alt="Esquema de ACV Mixto" class="info-img">
                 <div class="info-section">
-                    <strong>🧠 CAUSA:</strong> Se produce cuando ocurre un sangrado secundario dentro de un área que previamente había sufrido un infarto cerebral (isquemia). El daño tisular inicial debilita severamente los vasos sanguíneos y, al restaurarse o repercutir el flujo, provoca la hemorrágia.
+                    <strong>🧠 CAUSA:</strong> Sangrado secundario dentro de un área previamente infartada por isquemia.
                 </div>
+            </div>
+
+
+            <div class="info-card parkinson-content" style="border-top-color: #8e44ad;">
+                <h2 class="card-title" style="color: #8e44ad;">1. CAUSA NEUROLÓGICA</h2>
+                <div class="card-subtitle">Degeneración de la Sustancia Negra</div>
+                <img src="parkinson1.PNG" alt="Causa neurológica de Parkinson" class="info-img">
                 <div class="info-section">
-                    <strong>💥 IMPACTO CLÍNICO:</strong>
+                    <strong>🧠 EXPLICACIÓN:</strong> Pérdida progresiva de las neuronas dopaminérgicas en la sustancia negra del cerebro, lo que ocasiona una reducción drástica en los niveles de dopamina, neurotransmisor clave para el control del movimiento.
+                </div>
+            </div>
+
+            <div class="info-card parkinson-content" style="border-top-color: #9b59b6;">
+                <h2 class="card-title" style="color: #9b59b6;">2. SÍNTOMAS PRINCIPALES</h2>
+                <div class="card-subtitle">Manifestaciones Motoras Clásicas</div>
+                <img src="parkinson2.PNG" alt="Síntomas de Parkinson" class="info-img">
+                <div class="info-section">
+                    <strong>⚠️ INDICADORES:</strong>
                     <ul>
-                        <li>Mayor gravedad clínica y evolución compleja del paciente.</li>
-                        <li>Aumento severo de la presión intracraneal y un incremento crítico en el riesgo de mortalidad.</li>
-                        <li>Ejemplo típico: Un infarto cerebral extenso que se complica con sangrado en los días posteriores.</li>
+                        <li>Temblor en reposo (comúnmente en las manos).</li>
+                        <li>Bradicinesia (lentitud extrema en los movimientos voluntarios).</li>
+                        <li>Rigidez muscular y alteraciones de la postura o el equilibrio.</li>
                     </ul>
+                </div>
+            </div>
+
+            <div class="info-card parkinson-content" style="border-top-color: #4a235a;">
+                <h2 class="card-title" style="color: #4a235a;">3. PATOLOGÍA CELULAR Y NO MOTORA</h2>
+                <div class="card-subtitle">Cuerpos de Lewy y Síntomas Cognitivos</div>
+                <img src="parkinson3.PNG" alt="Patología celular del Parkinson" class="info-img">
+                <div class="info-section">
+                    <strong>🔬 DETALLES:</strong> Acumulación celular anómala de la proteína alfa-sinucleína formando los llamados "Cuerpos de Lewy". Provoca síntomas no motores como trastornos del sueño, depresión, pérdida del olfato y disfunción cognitiva.
                 </div>
             </div>
 
         </div>
     </div>
 
-    <footer>
-        PREVENCIÓN: Controlar la Hipertensión, No Fumar, Mantener una Dieta Saludable y realizar Ejercicio Regular.
-    </footer>
+    <script>
+        // Textos de los historiales clínicos de los pacientes
+        const datosCasos = {
+            acv: {
+                titulo: "CASO CLÍNICO 1: ACCIDENTE CEREBROVASCULAR",
+                texto: "<strong>Paciente:</strong> María, 62 años, diestra. Presenta un cuadro de inicio súbito en urgencias confirmándose un ACV isquémico en el territorio de la arteria cerebral media izquierda. Se encuentra alerta pero emite frases breves con mucho esfuerzo. Presenta paresia facial y hemiparesia derecha de predominio braquial. Requiere asistencia física."
+            },
+            parkinson: {
+                titulo: "CASO CLÍNICO 2: ENFERMEDAD DE PARKINSON",
+                texto: "<strong>Paciente:</strong> Jorge, 68 años. Acude a consulta tras notar un temblor involuntario en su mano derecha que empeora al estar en reposo. Su familia reporta que camina con pasos cortos, arrastrando levemente los pies, y muestra una expresión facial rígida (hipomimia). Refiere además fatiga crónica y pérdida del olfato desde hace meses."
+            }
+        };
+
+        function switchCase(tipo) {
+            const viewer = document.getElementById('main-viewer');
+            const viewerHeader = document.getElementById('viewer-title');
+            const buttons = document.querySelectorAll('.tab-button');
+            
+            // 1. Alternar Clases de los Botones
+            buttons.forEach(btn => btn.classList.remove('active'));
+            if(tipo === 'acv') {
+                document.querySelector('.acv-tab').classList.add('active');
+                viewer.src = "cerebro.glb"; // Cambia al primer modelo 3D
+                viewerHeader.style.backgroundColor = "#e6f2ff";
+                viewerHeader.style.color = "#004d73";
+                viewerHeader.innerText = "VISUALIZACIÓN 3D: ACCIDENTE CEREBROVASCULAR";
+            } else {
+                document.querySelector('.parkinson-tab').classList.add('active');
+                viewer.src = "Parkinson.glb"; // Cambia al segundo modelo 3D (Cerebro 2)
+                viewerHeader.style.backgroundColor = "#f5eef8";
+                viewerHeader.style.color = "#6c3483";
+                viewerHeader.innerText = "VISUALIZACIÓN 3D: ENFERMEDAD DE PARKINSON";
+            }
+
+            // 2. Actualizar el Recuadro del Caso Clínico
+            document.getElementById('case-box-title').innerText = datosCasos[tipo].titulo;
+            document.getElementById('case-box-text').innerHTML = datosCasos[tipo].texto;
+
+            // 3. Ocultar todas las tarjetas de la derecha y mostrar solo las correspondientes
+            const acvCards = document.querySelectorAll('.acv-content');
+            const parkinsonCards = document.querySelectorAll('.parkinson-content');
+
+            if(tipo === 'acv') {
+                parkinsonCards.forEach(c => c.classList.remove('show-block'));
+                acvCards.forEach(c => c.classList.add('show-block'));
+            } else {
+                acvCards.forEach(c => c.classList.remove('show-block'));
+                parkinsonCards.forEach(c => c.classList.add('show-block'));
+            }
+        }
+
+        // Cargar por defecto el Caso de ACV al iniciar la página
+        window.onload = function() {
+            switchCase('acv');
+        };
+    </script>
 
 </body>
 </html>
