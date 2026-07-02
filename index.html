@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualizador Clínico Interactivo</title>
     
-    <!-- Importa la librería model-viewer para cargar los archivos GLB -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
     <style>
@@ -22,7 +21,6 @@
             padding: 0;
             background-color: var(--bg-color);
             color: #333;
-            transition: background-color 0.3s;
         }
 
         /* Encabezado Principal */
@@ -62,9 +60,9 @@
             transition: all 0.3s ease;
             background-color: #e0e0e0;
             color: #555;
+            -webkit-tap-highlight-color: transparent; /* Elimina parpadeo en celular */
         }
 
-        /* Estados activos para cada pestaña */
         .tab-button.active.acv-tab {
             background-color: var(--primary-acv);
             color: white;
@@ -97,7 +95,7 @@
         .main-container {
             display: flex;
             flex-direction: row;
-            min-height: calc(100vh - 250px);
+            min-height: 600px;
             max-width: 1600px;
             margin: 0 auto;
             gap: 20px;
@@ -105,12 +103,13 @@
             box-sizing: border-box;
         }
 
-        /* COLUMNA IZQUIERDA: Visor 3D Dinámico */
+        /* COLUMNA IZQUIERDA: Visor 3D */
         .left-column {
             flex: 1;
             position: sticky;
             top: 20px;
-            height: calc(100vh - 240px);
+            height: 70vh;
+            min-height: 450px;
             min-width: 400px;
             background-color: var(--card-bg);
             border-radius: 12px;
@@ -127,16 +126,20 @@
             font-weight: bold;
             color: #004d73;
             border-bottom: 1px solid #d0e2f5;
-            transition: all 0.3s;
         }
 
+        /* Ajustes críticos para el renderizado móvil */
         model-viewer {
+            display: block;
             width: 100%;
+            height: 100%;
             flex: 1;
             background-color: #fafafa;
+            /* Asegura que los gestos táctiles funcionen para rotar el objeto */
+            touch-action: pan-y; 
         }
 
-        /* COLUMNA DERECHA: Información Cambiante */
+        /* COLUMNA DERECHA: Información */
         .right-column {
             flex: 1.5;
             display: flex;
@@ -146,14 +149,13 @@
             padding-right: 5px;
         }
 
-        /* Tarjetas de Información */
         .info-card {
             background-color: var(--card-bg);
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             border-top: 6px solid #ccc;
             padding: 25px;
-            display: none; /* Se maneja por JS */
+            display: none;
         }
 
         .card-title {
@@ -199,11 +201,9 @@
             line-height: 1.4;
         }
 
-        /* Clases de Control de Visibilidad (JS) */
         .show-block { display: block !important; }
-        .show-flex { display: flex !important; }
 
-        /* Adaptabilidad mejorada para pantallas pequeñas (Celulares) */
+        /* Adaptabilidad dedicada a celulares */
         @media (max-width: 900px) {
             .main-container {
                 flex-direction: column;
@@ -214,15 +214,11 @@
             .left-column {
                 position: relative;
                 top: 0;
-                width: 90vw; 
-                height: 45vh; 
+                width: 100%; 
+                height: 50vh; /* Ocupa la mitad del alto de pantalla del celular */
+                min-height: 380px;
                 min-width: 100%;
                 margin-bottom: 10px;
-            }
-
-            model-viewer {
-                width: 100%;
-                height: 100%;
             }
 
             .tabs-container {
@@ -233,7 +229,7 @@
 
             .tab-button {
                 width: 100%;
-                padding: 10px;
+                padding: 12px;
                 font-size: 1rem;
             }
 
@@ -250,39 +246,35 @@
         <h1 id="main-title">Plataforma de Casos Clínicos</h1>
     </header>
 
-    <!-- PESTAÑAS SELECCIONABLES -->
     <div class="tabs-container">
         <button class="tab-button active acv-tab" onclick="switchCase('acv')">📁 CASO CLÍNICO 1: ACV</button>
         <button class="tab-button parkinson-tab" onclick="switchCase('parkinson')">📁 CASO CLÍNICO 2: PARKINSON</button>
     </div>
 
-    <!-- RECUADRO DEL CASO CLÍNICO SELECCIONADO -->
     <div class="clinical-case-box">
         <h3 id="case-box-title">Historial del Paciente</h3>
-        <div id="case-box-text">
-            <!-- Cargado dinámicamente por JavaScript -->
-        </div>
+        <div id="case-box-text"></div>
     </div>
 
     <div class="main-container">
         
-        <!-- COLUMNA IZQUIERDA: Visor Único Reactivo -->
         <div class="left-column">
             <div class="viewer-header" id="viewer-title">VISUALIZACIÓN 3D INTERACTIVA</div>
             <model-viewer 
                 id="main-viewer"
                 src="cerebro.glb" 
-                alt="Modelo 3D interactivo" 
+                alt="Modelo 3D interactivo del cerebro" 
                 auto-rotate 
                 camera-controls
+                interaction-prompt="auto"
+                ar
+                ar-modes="webxr scene-viewer quick-look"
                 shadow-intensity="1">
             </model-viewer>
         </div>
 
-        <!-- COLUMNA DERECHA: Tarjetas Teóricas -->
         <div class="right-column">
             
-            <!-- CONTENIDO CASO 1: ACV -->
             <div class="info-card acv-content" style="border-top-color: #1a75ff;">
                 <h2 class="card-title" style="color: #1a75ff;">1. ACV ISQUÉMICO</h2>
                 <div class="card-subtitle">(Infarto Cerebral)</div>
@@ -316,14 +308,12 @@
                 </div>
             </div>
 
-
-            <!-- CONTENIDO CASO 2: PARKINSON -->
             <div class="info-card parkinson-content" style="border-top-color: #8e44ad;">
                 <h2 class="card-title" style="color: #8e44ad;">1. CAUSA NEUROLÓGICA</h2>
                 <div class="card-subtitle">Degeneración de la Sustancia Negra</div>
                 <img src="parkinson1.PNG" alt="Causa neurológica de Parkinson" class="info-img">
                 <div class="info-section">
-                    <strong>🧠 EXPLICACIÓN:</strong> Pérdida progresiva de las neuronas dopaminérgicas en la sustancia negra del cerebro, lo que ocasiona una reducción drástica en los niveles de dopamina, neurotransmisor clave para el control del movimiento.
+                    <strong>🧠 EXPLICACIÓN:</strong> Pérdida progresiva de las neuronas dopaminérgicas en la sustancia negra del cerebro.
                 </div>
             </div>
 
@@ -334,9 +324,9 @@
                 <div class="info-section">
                     <strong>⚠️ INDICADORES:</strong>
                     <ul>
-                        <li>Temblor en reposo (comúnmente en las manos).</li>
-                        <li>Bradicinesia (lentitud extrema en los movimientos voluntarios).</li>
-                        <li>Rigidez muscular y alteraciones de la postura o el equilibrio.</li>
+                        <li>Temblor en reposo.</li>
+                        <li>Bradicinesia (lentitud extrema).</li>
+                        <li>Rigidez muscular.</li>
                     </ul>
                 </div>
             </div>
@@ -346,14 +336,13 @@
                 <div class="card-subtitle">Cuerpos de Lewy y Síntomas Cognitivos</div>
                 <img src="parkinson3.PNG" alt="Patología celular del Parkinson" class="info-img">
                 <div class="info-section">
-                    <strong>🔬 DETALLES:</strong> Acumulación celular anómala de la proteína alfa-sinucleína formando los llamados "Cuerpos de Lewy". Provoca síntomas no motores como trastornos del sueño, depresión, pérdida del olfato y disfunción cognitiva.
+                    <strong>🔬 DETALLES:</strong> Acumulación celular anómala de la proteína alfa-sinucleína (Cuerpos de Lewy).
                 </div>
             </div>
 
         </div>
     </div>
 
-    <!-- SCRIPT DE JAVASCRIPT -->
     <script>
         const datosCasos = {
             acv: {
@@ -374,13 +363,13 @@
             buttons.forEach(btn => btn.classList.remove('active'));
             if(tipo === 'acv') {
                 document.querySelector('.acv-tab').classList.add('active');
-                viewer.src = "cerebro.glb"; 
+                viewer.setAttribute('src', 'cerebro.glb'); 
                 viewerHeader.style.backgroundColor = "#e6f2ff";
                 viewerHeader.style.color = "#004d73";
                 viewerHeader.innerText = "VISUALIZACIÓN 3D: ACCIDENTE CEREBROVASCULAR";
             } else {
                 document.querySelector('.parkinson-tab').classList.add('active');
-                viewer.src = "Parkinson.glb"; 
+                viewer.setAttribute('src', 'Parkinson.glb'); 
                 viewerHeader.style.backgroundColor = "#f5eef8";
                 viewerHeader.style.color = "#6c3483";
                 viewerHeader.innerText = "VISUALIZACIÓN 3D: ENFERMEDAD DE PARKINSON";
