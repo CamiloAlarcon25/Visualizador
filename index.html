@@ -15,6 +15,7 @@
             --mixed-color: #800080;
             --bg-color: #f4f7f9;
             --card-bg: #ffffff;
+            --accent-clinical: #27ae60;
         }
 
         body {
@@ -47,11 +48,64 @@
             opacity: 0.9;
         }
 
+        /* SECCIÓN NUEVA: Pestañas Desplegables de Casos Clínicos */
+        .clinical-cases-container {
+            max-width: 1560px;
+            margin: 20px auto 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        details {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 10px;
+            overflow: hidden;
+            border-left: 6px solid var(--accent-clinical);
+            transition: all 0.3s ease;
+        }
+
+        summary {
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1e7b43;
+            cursor: pointer;
+            outline: none;
+            user-select: none;
+            background-color: #ebfaef;
+        }
+
+        summary:hover {
+            background-color: #dbf7e3;
+        }
+
+        .case-content {
+            padding: 20px;
+            border-top: 1px solid #dbf7e3;
+            line-height: 1.6;
+            background-color: #fdfdfd;
+        }
+
+        .case-content p {
+            margin: 0 0 10px 0;
+        }
+
+        .case-highlight {
+            background-color: #fff9e6;
+            padding: 10px 15px;
+            border-left: 4px solid #f1c40f;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+
         /* Contenedor Principal en Dos Columnas */
         .main-container {
             display: flex;
             flex-direction: row;
-            min-height: calc(100vh - 160px);
+            min-height: calc(100vh - 220px);
             max-width: 1600px;
             margin: 0 auto;
             gap: 20px;
@@ -64,7 +118,7 @@
             flex: 1;
             position: sticky;
             top: 20px;
-            height: calc(100vh - 200px);
+            height: calc(100vh - 240px);
             min-width: 400px;
             background-color: var(--card-bg);
             border-radius: 12px;
@@ -133,11 +187,11 @@
             font-size: 1.1rem;
         }
 
-        /* Estilos para las nuevas imágenes descriptivas */
+        /* Estilos para las imágenes descriptivas */
         .acv-img {
             width: 100%;
             max-height: 250px;
-            object-fit: contain; /* Mantiene la proporción de la imagen sin deformarla */
+            object-fit: contain;
             background-color: #fafafa;
             border-radius: 6px;
             margin-bottom: 20px;
@@ -196,6 +250,33 @@
         <p>Comprensión y Prevención</p>
     </header>
 
+    <div class="clinical-cases-container">
+        
+        <details>
+            <summary>📁 CASO CLÍNICO 1: ACCIDENTE CEREBROVASCULAR</summary>
+            <div class="case-content">
+                <p><strong>Paciente:</strong> María, de 62 años, es diestra.</p>
+                <p><strong>Cuadro Clínico:</strong> Presenta un cuadro de inicio súbito en urgencias donde se confirma un <strong>accidente cerebrovascular isquémico</strong> en el territorio de la <strong>arteria cerebral media izquierda</strong>.</p>
+                <p><strong>Estado Actual:</strong> Actualmente se encuentra alerta, pero emite frases breves con mucho esfuerzo.</p>
+                <p><strong>Examen Físico:</strong> Presenta paresia facial derecha y hemiparesia derecha de predominio braquial.</p>
+                <p><strong>Impacto en la Vida Diaria:</strong> Requiere asistencia física para vestirse y no logra organizar mentalmente los pasos para la preparación de una comida sencilla en su hogar.</p>
+                
+                <div class="case-highlight">
+                    💡 <strong>Relación con el modelo 3D:</strong> El caso de María corresponde al <em>Item 1 (ACV Isquémico)</em> detallado en la columna derecha. Al observar tu archivo 3D <code>cerebro.glb</code>, el daño se localiza específicamente en el hemisferio izquierdo (afectando el lenguaje y la movilidad del lado derecho del cuerpo).
+                </div>
+            </div>
+        </details>
+
+        <details>
+            <summary>📁 CASO CLÍNICO 2: [Título del Segundo Caso]</summary>
+            <div class="case-content">
+                <p>Aquí puedes agregar la descripción del segundo caso clínico de la misma forma en que estructuramos el primero.</p>
+                <p><em>Modifica este texto en tu index.html con los detalles del nuevo paciente cuando los tengas listos.</em></p>
+            </div>
+        </details>
+
+    </div>
+
     <div class="main-container">
         
         <div class="left-column">
@@ -214,13 +295,11 @@
             <div class="acv-card ischemic">
                 <h2 class="card-title">1. ACV ISQUÉMICO</h2>
                 <div class="card-subtitle">(Infarto Cerebral)</div>
-                
                 <img src="isquemico.png" alt="Esquema de ACV Isquémico" class="acv-img">
                 
                 <div class="info-section">
                     <strong>🧠 CAUSA:</strong> Obstrucción de arteria (como la Arteria Cerebral Media) provocada por un trombo o émbolo, generando una placa que bloquea el flujo sanguíneo y produce un infarto en la zona de isquemia. (Representa el 87% de los casos).
                 </div>
-                
                 <div class="info-section">
                     <strong>⚠️ SÍNTOMAS:</strong>
                     <ul>
@@ -229,7 +308,6 @@
                         <li>Visión borrosa o pérdida repentina de la visión.</li>
                     </ul>
                 </div>
-                
                 <div class="info-section">
                     <strong>📋 FACTORES DE RIESGO:</strong>
                     Hipertensión, Colesterol alto, Diabetes y Tabaquismo.
@@ -239,13 +317,11 @@
             <div class="acv-card hemorrhagic">
                 <h2 class="card-title">2. ACV HEMORRÁGICO</h2>
                 <div class="card-subtitle">(Derrame Cerebral)</div>
-                
                 <img src="hemorragico.png" alt="Esquema de ACV Hemorrágico" class="acv-img">
                 
                 <div class="info-section">
                     <strong>🧠 CAUSA:</strong> Ruptura de un vaso sanguíneo intracerebral debido comúnmente a un aneurisma o malformación arteriovenosa, lo que genera sangrado acumulado y una fuerte presión interna. (Representa el 13% de los casos).
                 </div>
-                
                 <div class="info-section">
                     <strong>⚠️ SÍNTOMAS:</strong>
                     <ul>
@@ -254,7 +330,6 @@
                         <li>Rigidez de nuca y confusión mental progresiva.</li>
                     </ul>
                 </div>
-                
                 <div class="info-section">
                     <strong>📋 FACTORES DE RIESGO:</strong>
                     Hipertensión severa no controlada, Aneurismas y Malformaciones vasculares congénitas.
@@ -264,13 +339,11 @@
             <div class="acv-card mixed">
                 <h2 class="card-title">3. ACV MIXTO</h2>
                 <div class="card-subtitle">/ Transformación Hemorrágica</div>
-                
                 <img src="mixto.png" alt="Esquema de ACV Mixto" class="acv-img">
                 
                 <div class="info-section">
-                    <strong>🧠 CAUSA:</strong> Se produce cuando ocurre un sangrado secundario dentro de un área que previamente había sufrido un infarto cerebral (isquemia). El daño tisular inicial debilita severamente los vasos sanguíneos y, al restaurarse o repercutir el flujo, provoca la hemorragia.
+                    <strong>🧠 CAUSA:</strong> Se produce cuando ocurre un sangrado secundario dentro de un área que previamente había sufrido un infarto cerebral (isquemia). El daño tisular inicial debilita severamente los vasos sanguíneos y, al restaurarse o repercutir el flujo, provoca la hemorrágia.
                 </div>
-                
                 <div class="info-section">
                     <strong>💥 IMPACTO CLÍNICO:</strong>
                     <ul>
