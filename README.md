@@ -29,4 +29,15 @@ Una aplicación web interactiva y responsiva diseñada como herramienta educativ
 ├── parkinson2.png      # Imagen de apoyo para Manifestaciones Motoras
 └── parkinson3.png      # Imagen de apoyo para Patología Celular (Cuerpos de Lewy)
 
-## Link para visualizar pagina web https://camiloalarcon25.github.io/Visualizador/
+## 📂 Estructura del Proyecto
+
+```text
+├── index.html          # Código fuente principal (UI, Estilos y Lógica)
+├── cerebro.glb         # Modelo 3D para el caso de ACV
+├── cerebro2.glb        # Modelo 3D para el caso de Parkinson
+├── isquemico.png       # Imagen de apoyo para ACV Isquémico
+├── hemorragico.png     # Imagen de apoyo para ACV Hemorrágico
+├── mixto.png           # Imagen de apoyo para ACV Mixto
+├── parkinson1.png      # Imagen de apoyo para Causa Neurológica de Parkinson
+├── parkinson2.png      # Imagen de apoyo para Manifestaciones Motoras
+└── parkinson3.png      # Imagen de apoyo para Patología Celular (Cuerpos de Lewy)
