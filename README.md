@@ -16,18 +16,11 @@ Una aplicación web interactiva y responsiva diseñada como herramienta educativ
 *   **JavaScript (Vanilla):** Lógica del lado del cliente para la manipulación dinámica del DOM y el intercambio de estados de la interfaz.
 *   **Model-Viewer (Google):** Componente web nativo para el renderizado tridimensional compatible con WebXR.
 
-## 📂 Estructura del Proyecto
+## 🔗 Despliegue y Demo en Vivo
 
-```text
-├── index.html          # Código fuente principal (UI, Estilos y Lógica)
-├── cerebro.glb         # Modelo 3D para el caso de ACV
-├── cerebro2.glb        # Modelo 3D para el caso de Parkinson
-├── isquemico.png       # Imagen de apoyo para ACV Isquémico
-├── hemorragico.png     # Imagen de apoyo para ACV Hemorrágico
-├── mixto.png           # Imagen de apoyo para ACV Mixto
-├── parkinson1.png      # Imagen de apoyo para Causa Neurológica de Parkinson
-├── parkinson2.png      # Imagen de apoyo para Manifestaciones Motoras
-└── parkinson3.png      # Imagen de apoyo para Patología Celular (Cuerpos de Lewy)
+Puedes acceder a la plataforma interactiva ejecutándose en tiempo real a través del siguiente enlace:
+
+👉 **[Visitar Plataforma de Casos Clínicos](https://camiloalarcon25.github.io/Visualizador/)** 
 
 ## 📂 Estructura del Proyecto
 
