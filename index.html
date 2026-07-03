@@ -60,7 +60,7 @@
             transition: all 0.3s ease;
             background-color: #e0e0e0;
             color: #555;
-            -webkit-tap-highlight-color: transparent; /* Elimina parpadeo en celular */
+            -webkit-tap-highlight-color: transparent;
         }
 
         .tab-button.active.acv-tab {
@@ -77,7 +77,7 @@
         .clinical-case-box {
             max-width: 1560px;
             margin: 20px auto 0 auto;
-            padding: 20px;
+            padding: 25px;
             background-color: #fff9e6;
             border-left: 6px solid #f1c40f;
             border-radius: 8px;
@@ -89,6 +89,19 @@
         .clinical-case-box h3 {
             margin-top: 0;
             color: #b7950b;
+            font-size: 1.4rem;
+            border-bottom: 1px solid #f9e79f;
+            padding-bottom: 8px;
+        }
+
+        .case-details h4 {
+            margin: 15px 0 5px 0;
+            color: #7d6608;
+        }
+
+        .case-details ul {
+            margin: 5px 0;
+            padding-left: 20px;
         }
 
         /* Contenedor Principal en Dos Columnas */
@@ -108,9 +121,9 @@
             flex: 1;
             position: sticky;
             top: 20px;
-            height: 70vh;
-            min-height: 450px;
-            min-width: 400px;
+            height: 75vh;
+            min-height: 500px;
+            min-width: 420px;
             background-color: var(--card-bg);
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
@@ -128,20 +141,18 @@
             border-bottom: 1px solid #d0e2f5;
         }
 
-        /* Ajustes críticos para el renderizado móvil */
         model-viewer {
             display: block;
             width: 100%;
             height: 100%;
             flex: 1;
             background-color: #fafafa;
-            /* Asegura que los gestos táctiles funcionen para rotar el objeto */
             touch-action: pan-y; 
         }
 
         /* COLUMNA DERECHA: Información */
         .right-column {
-            flex: 1.5;
+            flex: 1.4;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -159,7 +170,7 @@
         }
 
         .card-title {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             margin-top: 0;
             margin-bottom: 5px;
         }
@@ -168,7 +179,7 @@
             font-style: italic;
             color: #666;
             margin-bottom: 15px;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
         }
 
         .info-img {
@@ -183,12 +194,13 @@
 
         .info-section {
             margin-bottom: 15px;
+            line-height: 1.5;
         }
 
         .info-section strong {
             display: inline-block;
             color: #222;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .info-section ul {
@@ -197,8 +209,7 @@
         }
 
         .info-section li {
-            margin-bottom: 5px;
-            line-height: 1.4;
+            margin-bottom: 4px;
         }
 
         .show-block { display: block !important; }
@@ -215,7 +226,7 @@
                 position: relative;
                 top: 0;
                 width: 100%; 
-                height: 50vh; /* Ocupa la mitad del alto de pantalla del celular */
+                height: 50vh; 
                 min-height: 380px;
                 min-width: 100%;
                 margin-bottom: 10px;
@@ -252,8 +263,8 @@
     </div>
 
     <div class="clinical-case-box">
-        <h3 id="case-box-title">Historial del Paciente</h3>
-        <div id="case-box-text"></div>
+        <h3 id="case-box-title">Cargando Historial...</h3>
+        <div id="case-box-text" class="case-details"></div>
     </div>
 
     <div class="main-container">
@@ -277,66 +288,75 @@
             
             <div class="info-card acv-content" style="border-top-color: #1a75ff;">
                 <h2 class="card-title" style="color: #1a75ff;">1. ACV ISQUÉMICO</h2>
-                <div class="card-subtitle">(Infarto Cerebral)</div>
+                <div class="card-subtitle">(Infarto Cerebral - 87% de los casos)</div>
                 <img src="isquemico.png" alt="Esquema de ACV Isquémico" class="info-img">
                 <div class="info-section">
-                    <strong>🧠 CAUSA:</strong> Obstrucción de arteria por trombo o émbolo. (87% de los casos).
+                    <strong>🧠 CAUSA:</strong> Obstrucción de una arteria cerebral debido al desarrollo de un trombo local o la llegada de un émbolo, lo que genera una placa que bloquea por completo el flujo sanguíneo.
                 </div>
                 <div class="info-section">
-                    <strong>⚠️ SÍNTOMAS:</strong> Adormecimiento facial, debilidad en un lado del cuerpo, dificultad para hablar.
+                    <strong>⚠️ SÍNTOMAS COMUNES:</strong> Adormecimiento repentino, debilidad localizada (cara, brazo, pierna, especialmente en un lado del cuerpo), dificultad severa para hablar y comprender, junto con visión borrosa.
+                </div>
+                <div class="info-section">
+                    <strong>📋 FACTORES DE RIESGO:</strong> Hipertensión arterial, colesterol elevado, diabetes mellitus y tabaquismo.
                 </div>
             </div>
 
             <div class="info-card acv-content" style="border-top-color: #cc3333;">
                 <h2 class="card-title" style="color: #cc3333;">2. ACV HEMORRÁGICO</h2>
-                <div class="card-subtitle">(Derrame Cerebral)</div>
+                <div class="card-subtitle">(Derrame Cerebral - 13% de los casos)</div>
                 <img src="hemorragico.png" alt="Esquema de ACV Hemorrágico" class="info-img">
                 <div class="info-section">
-                    <strong>🧠 CAUSA:</strong> Ruptura de un vaso sanguíneo intracerebral. (13% de los casos).
+                    <strong>🧠 CAUSA:</strong> Ruptura de un vaso sanguíneo intracerebral, frecuentemente asociado a la presencia de un aneurisma o una malformación arteriovenosa, provocando un sangrado directo en el parénquima y alta presión tisular.
                 </div>
                 <div class="info-section">
-                    <strong>⚠️ SÍNTOMAS:</strong> Dolor de cabeza explosivo e intenso, náuseas, rigidez de nuca.
+                    <strong>⚠️ SÍNTOMAS COMUNES:</strong> Dolor de cabeza explosivo, repentino e intensamente grave (descrito como el peor dolor de la vida), náuseas, vómitos explosivos, rigidez de nuca y confusión mental progresiva.
+                </div>
+                <div class="info-section">
+                    <strong>📋 FACTORES DE RIESGO:</strong> Hipertensión severa descontrolada, presencia previa de aneurismas y malformaciones vasculares.
                 </div>
             </div>
 
             <div class="info-card acv-content" style="border-top-color: #800080;">
-                <h2 class="card-title" style="color: #800080;">3. ACV MIXTO</h2>
-                <div class="card-subtitle">/ Transformación Hemorrágica</div>
+                <h2 class="card-title" style="color: #800080;">3. ACV MIXTO / TRANSFORMACIÓN HEMORRÁGICA</h2>
+                <div class="card-subtitle">(Complicación Clínica Secundaria)</div>
                 <img src="mixto.png" alt="Esquema de ACV Mixto" class="info-img">
                 <div class="info-section">
-                    <strong>🧠 CAUSA:</strong> Sangrado secundario dentro de un área previamente infartada por isquemia.
+                    <strong>🧠 CAUSA:</strong> Sangrado secundario que ocurre dentro de un área cerebral que previamente había sufrido un infarto debido a la isquemia. El daño tisular inicial debilita estructuralmente las paredes de los vasos. Al ocurrir el retorno sanguíneo (reperfusión) o por debilidad vascular post-infarto, el vaso se rompe provocando la hemorragia.
+                </div>
+                <div class="info-section">
+                    <strong>💥 IMPACTO CLÍNICO:</strong> Incrementa significativamente la gravedad del paciente, produciendo un aumento drástico de la presión intracraneal y elevando sustancialmente el riesgo de mortalidad.
                 </div>
             </div>
 
             <div class="info-card parkinson-content" style="border-top-color: #8e44ad;">
                 <h2 class="card-title" style="color: #8e44ad;">1. CAUSA NEUROLÓGICA</h2>
-                <div class="card-subtitle">Degeneración de la Sustancia Negra</div>
+                <div class="card-subtitle">Degeneración de la Sustancia Negra y Ganglios Basales</div>
                 <img src="parkinson1.PNG" alt="Causa neurológica de Parkinson" class="info-img">
                 <div class="info-section">
-                    <strong>🧠 EXPLICACIÓN:</strong> Pérdida progresiva de las neuronas dopaminérgicas en la sustancia negra del cerebro.
+                    <strong>🧠 EXPLICACIÓN PATOLÓGICA:</strong> Se produce por la pérdida progresiva de neuronas productoras del neurotransmisor dopamina en la **Sustancia Negra** del mesencéfalo. Esto genera una alteración directa en el funcionamiento de los **ganglios basales**, que son las estructuras subcorticales encargadas de iniciar, coordinar y regular armónicamente los movimientos corporales.
                 </div>
             </div>
 
             <div class="info-card parkinson-content" style="border-top-color: #9b59b6;">
-                <h2 class="card-title" style="color: #9b59b6;">2. SÍNTOMAS PRINCIPALES</h2>
-                <div class="card-subtitle">Manifestaciones Motoras Clásicas</div>
+                <h2 class="card-title" style="color: #9b59b6;">2. SÍNTOMAS MOTORAS PRINCIPALES</h2>
+                <div class="card-subtitle">Tríada Clínica Clásica</div>
                 <img src="parkinson2.PNG" alt="Síntomas de Parkinson" class="info-img">
                 <div class="info-section">
-                    <strong>⚠️ INDICADORES:</strong>
+                    <strong>⚠️ ALTERACIONES MOTORAS CARACTERÍSTICAS:</strong>
                     <ul>
-                        <li>Temblor en reposo.</li>
-                        <li>Bradicinesia (lentitud extrema).</li>
-                        <li>Rigidez muscular.</li>
+                        <li><strong>Temblor de reposo:</strong> Movimiento involuntario rítmico que aparece típicamente cuando las extremidades están relajadas (común en manos).</li>
+                        <li><strong>Rigidez muscular:</strong> Resistencia constante o intermitente al movimiento pasivo de las articulaciones.</li>
+                        <li><strong>Bradicinesia:</strong> Lentitud generalizada en la planificación, iniciación y ejecución de todos los movimientos voluntarios.</li>
                     </ul>
                 </div>
             </div>
 
             <div class="info-card parkinson-content" style="border-top-color: #4a235a;">
-                <h2 class="card-title" style="color: #4a235a;">3. PATOLOGÍA CELULAR Y NO MOTORA</h2>
-                <div class="card-subtitle">Cuerpos de Lewy y Síntomas Cognitivos</div>
+                <h2 class="card-title" style="color: #4a235a;">3. PATOLOGÍA CELULAR Y SÍNTOMAS NO MOTORES</h2>
+                <div class="card-subtitle">Cuerpos de Lewy e Impacto Sistémico</div>
                 <img src="parkinson3.PNG" alt="Patología celular del Parkinson" class="info-img">
                 <div class="info-section">
-                    <strong>🔬 DETALLES:</strong> Acumulación celular anómala de la proteína alfa-sinucleína (Cuerpos de Lewy).
+                    <strong>🔬 FISIOPATOLOGÍA CELULAR:</strong> A nivel microscópico, la enfermedad se caracteriza por la acumulación e inclusión anómala de agregados de la proteína alfa-sinucleína en el citoplasma neuronal, estructurando los llamados **Cuerpos de Lewy**. Esta degeneración no solo afecta las vías motoras, sino que desencadena manifestaciones no motoras como fatiga crónica, anosmia (pérdida del olfato), trastornos del sueño, depresión y disfunción cognitiva progresiva.
                 </div>
             </div>
 
@@ -346,12 +366,46 @@
     <script>
         const datosCasos = {
             acv: {
-                titulo: "CASO CLÍNICO 1: ACCIDENTE CEREBROVASCULAR",
-                texto: "<strong>Paciente:</strong> María, 62 años, diestra. Presenta un cuadro de inicio súbito en urgencias confirmándose un ACV isquémico en el territorio de la arteria cerebral media izquierda. Se encuentra alerta pero emite frases breves con mucho esfuerzo. Presenta paresia facial y hemiparesia derecha de predominio braquial. Requiere asistencia física."
+                titulo: "CASO CLÍNICO 1: ACCIDENTE CEREBROVASCULAR ISQUÉMICO",
+                texto: `
+                    <p><strong>Paciente:</strong> Alejandra, 54 años. Sufrió un Accidente Cerebrovascular (ACV) Isquémico en el hemisferio derecho hace cuatro meses. Actualmente vive con su esposo e hija y presenta una puntuación en la Escala de Rankin Modificado de 3 puntos, requiriendo ayuda parcial para ciertas actividades pero manteniendo cierto grado de funcionalidad.</p>
+                    
+                    <h4>🧠 Consecuencias Clínicas del ACV:</h4>
+                    <ul>
+                        <li>Debilidad y disminución drástica de fuerza en el hemicuerpo izquierdo (hemiparesia izquierda afectando brazo y pierna).</li>
+                        <li>Alteraciones severas del equilibrio dinámico durante la marcha.</li>
+                        <li>Lentitud marcada en la ejecución de cualquier actividad motora.</li>
+                        <li>Disminución de la coordinación visomotora y precisión fina de la mano izquierda.</li>
+                    </ul>
+
+                    <h4>⚠️ Ocupaciones y Desempeño Cotidiano Afectado:</h4>
+                    <ul>
+                        <li><strong>Actividades Básicas de la Vida Diaria (ABVD):</strong> Dificultades críticas para vestirse, abotonarse la ropa, peinarse, cortar alimentos e higiene personal.</li>
+                        <li><strong>Actividades Instrumentales (AIVD):</strong> Limitación para la preparación de comidas, manipulación de cubiertos/objetos pequeños y tareas del hogar.</li>
+                        <li><strong>Ocio y Productividad:</strong> Trabajaba previamente como secretaria y realizaba actividades de tejido y bordado en su tiempo libre; debió abandonar ambas labores debido a la pérdida de destreza.</li>
+                        <li><strong>Ámbito Emocional y Social:</strong> Reporta profundos sentimientos de frustración y tristeza. Evita salir sola por un alto miedo a sufrir caídas y ha disminuido drásticamente su asistencia a reuniones familiares o eventos sociales.</li>
+                    </ul>
+                `
             },
             parkinson: {
                 titulo: "CASO CLÍNICO 2: ENFERMEDAD DE PARKINSON",
-                texto: "<strong>Paciente:</strong> Jorge, 68 años. Acude a consulta tras notar un temblor involuntario en su mano derecha que empeora al estar en reposo. Su familia reporta que camina con pasos cortos, arrastrando levemente los pies, y muestra una expresión facial rígida (hipomimia). Refiere además fatiga crónica y pérdida del olfato desde hace meses."
+                texto: `
+                    <p><strong>Paciente:</strong> Carlos, 68 años. Diagnosticado con Enfermedad de Parkinson hace dos años. Actualmente se encuentra clasificado en la **Etapa II de la Escala de Hoehn y Yahr**, indicando la presencia de afectación sintomática bilateral (en ambos lados del cuerpo), aunque preservando un nivel importante de independencia funcional general.</p>
+                    
+                    <h4>🔬 Manifestaciones Clínicas Actuales:</h4>
+                    <ul>
+                        <li>Temblor de reposo persistente localizado en la mano derecha.</li>
+                        <li>Rigidez muscular generalizada perceptible al movimiento.</li>
+                        <li>Bradicinesia explícita (lentitud en movimientos voluntarios coordinados).</li>
+                    </ul>
+
+                    <h4>⚠️ Ocupaciones y Desempeño Cotidiano Afectado:</h4>
+                    <ul>
+                        <li><strong>Coordinación Fina y Precisión:</strong> Presenta impedimentos considerables para escribir de forma legible, abrochar botones pequeños, manipular cubiertos adecuadamente y asir objetos diminutos.</li>
+                        <li><strong>Actividades Básicas e Instrumentales (AIVD):</strong> Dificultades al preparar alimentos autónomamente, extendiendo los tiempos de ejecución normales y requiriendo la asistencia o supervisión de su esposa.</li>
+                        <li><strong>Participación Social y Ocio:</strong> Ha abandonado por completo sus partidas semanales de ajedrez (su pasatiempo más significativo) debido a la pérdida de control fino en los dedos, lo que le ha generado frustración reactiva y un progresivo aislamiento de sus redes sociales habituales.</li>
+                    </ul>
+                `
             }
         };
 
