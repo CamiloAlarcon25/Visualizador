@@ -423,12 +423,12 @@
                 viewerHeader.innerText = "VISUALIZACIÓN 3D: ACCIDENTE CEREBROVASCULAR";
             } else {
                 document.querySelector('.parkinson-tab').classList.add('active');
-                viewer.setAttribute('src', 'cerebro-draco.glb'); 
+                viewer.setAttribute('src', 'cerebro-draco.glb');  
                 viewerHeader.style.backgroundColor = "#f5eef8";
                 viewerHeader.style.color = "#6c3483";
                 viewerHeader.innerText = "VISUALIZACIÓN 3D: ENFERMEDAD DE PARKINSON";
             }
-
+/* aqui es el cambio */ 
             document.getElementById('case-box-title').innerText = datosCasos[tipo].titulo;
             document.getElementById('case-box-text').innerHTML = datosCasos[tipo].texto;
 
